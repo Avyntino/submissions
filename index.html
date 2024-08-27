@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Submission Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+    <script>
+        let inputField;
+        let submitButton;
+
+        function setup() {
+            createCanvas(400, 200);
+            background(255);
+
+            // Create input field
+            inputField = createInput();
+            inputField.position(50, 80);
+            inputField.size(300, 40);
+            inputField.style('font-size', '20px');
+
+            // Create submit button
+            submitButton = createButton('Submit');
+            submitButton.position(150, 140);
+            submitButton.size(100, 40);
+            submitButton.style('font-size', '20px');
+            submitButton.mousePressed(submitForm);
+        }
+
+        function submitForm() {
+            let walletAddress = inputField.value();
+            let formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSd6dDX4qhSfRjGV2YaGkbPzoJ44nCocMxmluEkHCi19nBmvmw/formResponse';  // Updated with your Form ID
+            let formData = new FormData();
+
+            // Append the wallet address to the form data
+            formData.append('entry.575823017', walletAddress);
+
+            // Submit the form data using fetch
+            fetch(formURL, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            })
+            .then(() => {
+                console.log('Wallet address submitted.');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+            // Clear input field after submission
+            inputField.value('');
+        }
+
+        function draw() {
+            // No continuous drawing needed
+        }
+    </script>
+</body>
+</html>
